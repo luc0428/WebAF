@@ -1,0 +1,98 @@
+<div>
+  <h2>Lista de Controles Financeiros</h2>
+  
+  <div *ngIf="carregando">
+    <p>Carregando...</p>
+  </div>
+
+  <div *ngIf="!carregando && controles.length === 0">
+    <p>Nenhum registro encontrado.</p>
+  </div>
+
+  <div *ngIf="!carregando && controles.length > 0">
+    <h3>Saldo: R$ {{ saldo | number:'1.2-2' }}</h3>
+    
+    <div>
+      <h4>Cores</h4>
+      <div>
+        <label for="corReceitas">Cor para Receitas:</label>
+        <select id="corReceitas" [(ngModel)]="corReceitas">
+          <option value="red">Vermelho</option>
+          <option value="blue">Azul</option>
+          <option value="yellow">Amarelo</option>
+          <option value="green">Verde</option>
+        </select>
+      </div>
+      
+      <div>
+        <label for="corDespesas">Cor para Despesas:</label>
+        <select id="corDespesas" [(ngModel)]="corDespesas">
+          <option value="red">Vermelho</option>
+          <option value="blue">Azul</option>
+          <option value="yellow">Amarelo</option>
+          <option value="green">Verde</option>
+        </select>
+      </div>
+    </div>
+    
+    <div>
+      <h4>Filtros</h4>      
+      <div>
+        <label for="ordenacaoTipoConta">Ordenar por Tipo de Conta:</label>
+        <select id="ordenacaoTipoConta" [(ngModel)]="ordenacaoTipoConta" (change)="aplicarFiltros()">
+          <option value="">Sem ordenação</option>
+          <option value="despesas-receitas">Despesas → Receitas</option>
+          <option value="receitas-despesas">Receitas → Despesas</option>
+        </select>
+      </div>
+      
+      <div>
+        <label for="ordenacaoTag">Ordenar por Tag:</label>
+        <select id="ordenacaoTag" [(ngModel)]="ordenacaoTag" (change)="aplicarFiltros()">
+          <option value="">Sem ordenação</option>
+          <option value="asc">A-Z (Alfabética)</option>
+          <option value="desc">Z-A (Alfabética inversa)</option>
+        </select>
+      </div>
+      
+      <div>
+        <label for="ordenacaoValor">Ordenar por Valor:</label>
+        <select id="ordenacaoValor" [(ngModel)]="ordenacaoValor" (change)="aplicarFiltros()">
+          <option value="">Sem ordenação</option>
+          <option value="asc">Menor para Maior</option>
+          <option value="desc">Maior para Menor</option>
+        </select>
+      </div>
+      
+      <div>
+        <button (click)="limparFiltros()">Limpar Filtros</button>
+      </div>
+    </div>
+  </div>
+
+  <table *ngIf="!carregando && controles.length > 0" border="1" cellpadding="10" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Tipo de Conta</th>
+        <th>Descrição</th>
+        <th>Data</th>
+        <th>Tag</th>
+        <th>Valor</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let controle of controlesFiltrados" [style.background-color]="getCorLinha(controle.TipoConta)">
+        <td>{{ controle.TipoConta }}</td>
+        <td>{{ controle.Descricao }}</td>
+        <td>{{ controle.Data | date:'dd/MM/yyyy' }}</td>
+        <td>{{ controle.Tag }}</td>
+        <td>R$ {{ controle.Valor | number:'1.2-2' }}</td>
+        <td>
+          <button (click)="editar(controle)">Editar</button>
+          <button (click)="excluir(controle._id.toString())">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

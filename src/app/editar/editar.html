@@ -1,0 +1,54 @@
+<div>
+  <h2>Editar Controle Financeiro</h2>
+  
+  <form [formGroup]="formulario" (ngSubmit)="salvar()">
+    <div>
+      <label for="TipoConta">Tipo de Conta:</label>
+      <select id="TipoConta" formControlName="TipoConta">
+        <option value="">Selecione...</option>
+        <option value="Receitas">Receitas</option>
+        <option value="Despesas">Despesas</option>
+      </select>
+      <span *ngIf="formulario.get('TipoConta')?.invalid && formulario.get('TipoConta')?.touched">
+        Campo obrigatório
+      </span>
+    </div>
+
+    <div>
+      <label for="Descricao">Descrição:</label>
+      <input type="text" id="Descricao" formControlName="Descricao" />
+      <span *ngIf="formulario.get('Descricao')?.invalid && formulario.get('Descricao')?.touched">
+        Campo obrigatório
+      </span>
+    </div>
+
+    <div>
+      <label for="Data">Data:</label>
+      <input type="date" id="Data" formControlName="Data" />
+      <span *ngIf="formulario.get('Data')?.invalid && formulario.get('Data')?.touched">
+        Campo obrigatório
+      </span>
+    </div>
+
+    <div>
+      <label for="Tag">Tag:</label>
+      <input type="text" id="Tag" formControlName="Tag" />
+      <span *ngIf="formulario.get('Tag')?.invalid && formulario.get('Tag')?.touched">
+        Campo obrigatório
+      </span>
+    </div>
+
+    <div>
+      <label for="Valor">Valor:</label>
+      <input type="number" id="Valor" formControlName="Valor" step="0.01" />
+      <span *ngIf="formulario.get('Valor')?.invalid && formulario.get('Valor')?.touched">
+        Campo obrigatório e deve ser maior ou igual a zero
+      </span>
+    </div>
+
+    <div>
+      <button type="submit" [disabled]="formulario.invalid">Salvar</button>
+      <button type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>
